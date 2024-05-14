@@ -8,7 +8,7 @@ function App(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<AllEventsPage />} index />
-      <Route path="/event-reg-from" element={<EventRegPage />} />
+      <Route path="/event-reg-form/:eventId" element={<EventRegPage />} />
       <Route path="/participants" element={<ParticipantsPage />} />
     </Routes>
   );

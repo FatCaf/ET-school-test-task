@@ -1,0 +1,8 @@
+.event-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    border: 2px solid blueviolet;
+    border-radius: 8px;
+}
