@@ -1,0 +1,15 @@
+.event-reg-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reg-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid sandybrown;
+    border-radius: 8px;
+}

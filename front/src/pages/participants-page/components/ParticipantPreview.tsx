@@ -1,9 +1,12 @@
-function ParticipantPreview(): JSX.Element {
+import { Participant } from '../../../types/Participant';
+import './ParticipantPreview.css';
+
+function ParticipantPreview({ name, email }: Participant): JSX.Element {
   return (
-    <div className="participant-card">
+    <div className="participant-preview">
       <div className="participant-info">
-        <p>Name</p>
-        <p>Email</p>
+        <p>{name}</p>
+        <p>{email}</p>
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ rules:
   declaration-no-important: null
   max-nesting-depth: 3
   no-descending-specificity: true
-  string-quotes: single
 
   order/order:
     - custom-properties

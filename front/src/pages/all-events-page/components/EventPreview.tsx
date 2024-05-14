@@ -1,16 +1,24 @@
 import { Link } from 'react-router-dom';
+import { EventType } from '../../../types/EventType';
+import './EventPreview.css';
 
-function EventPreview(): JSX.Element {
+function EventPreview({
+  _id, title, description, date, organizer, participants,
+}: EventType): JSX.Element {
   return (
     <div className="event-preview">
       <div className="title">
-        <h4>Title</h4>
-        <p>Description</p>
-        <p>Organized by</p>
+        <h4>{title}</h4>
+        <p>{description}</p>
+        <p>
+          Organized by:
+          {organizer}
+        </p>
+        <p>{date}</p>
       </div>
       <div className="controls">
-        <Link to="/event-reg-page">Register</Link>
-        <Link to="/participants">View</Link>
+        <Link to={`/event-reg-form/${_id}`}>Register</Link>
+        <Link to="/participants" state={participants}>View</Link>
       </div>
     </div>
   );

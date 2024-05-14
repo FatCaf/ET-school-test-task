@@ -1,0 +1,7 @@
+.participant-preview {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border: 2px solid salmon;
+    border-radius: 8px;
+}
