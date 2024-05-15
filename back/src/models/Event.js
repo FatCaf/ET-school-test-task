@@ -14,6 +14,7 @@ const Event = new mongoose.Schema({
 			email: { type: String },
 			dob: { type: String },
 			where_heard: { type: String },
+			createdAt: {type: Date}
 		},
 	],
 });
