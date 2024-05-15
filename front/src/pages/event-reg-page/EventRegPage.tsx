@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import eventApi from '../../api/request';
 import { EventReg } from '../../types/EventReg';
+import { emailRegexp } from '../../utils/emailRegexp';
+import { nameRegexp } from '../../utils/nameRegexp';
 import './EventRegPage.css';
 
 function EventRegPage(): JSX.Element {
@@ -12,8 +15,18 @@ function EventRegPage(): JSX.Element {
     where_heard: '',
   });
   const { eventId } = useParams();
+  const currentDate = new Date().toISOString().substring(0, 10);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+
+    if (!formData.email.match(emailRegexp)) {
+      toast.error('Email is invalid');
+      return;
+    } if (!formData.name.match(nameRegexp)) {
+      toast.error('Full name is invalid');
+      return;
+    }
+
     await eventApi.post(`/event-reg-form/${eventId}`, formData);
   };
 
@@ -29,7 +42,7 @@ function EventRegPage(): JSX.Element {
         <h4>Event registration form</h4>
         <label id="name">
           Full name
-          <input type="text" name="name" id="name" required onChange={handleChange} />
+          <input type="text" name="name" id="name" maxLength={24} required onChange={handleChange} />
         </label>
         <label id="email">
           Email
@@ -37,7 +50,7 @@ function EventRegPage(): JSX.Element {
         </label>
         <label id="dob">
           Date of birth
-          <input type="date" name="dob" id="dob" required onChange={handleChange} />
+          <input type="date" name="dob" id="dob" max={currentDate} required onChange={handleChange} />
         </label>
         <fieldset>
           <legend>Where did you hear about this event?</legend>

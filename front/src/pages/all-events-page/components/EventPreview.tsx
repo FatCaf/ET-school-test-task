@@ -18,7 +18,7 @@ function EventPreview({
       </div>
       <div className="controls">
         <Link to={`/event-reg-form/${_id}`}>Register</Link>
-        <Link to="/participants" state={participants}>View</Link>
+        <Link to={`/participants/${_id}`} state={participants}>View</Link>
       </div>
     </div>
   );

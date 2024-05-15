@@ -1,13 +1,17 @@
 import Event from '../models/Event.js';
-import Participant from '../models/Participant.js';
+import dataSorter from '../services/dataSorter.js';
+import compareDates from '../services/dateComparator.js';
 
 class EventController {
 	async getEvents(req, res) {
 		try {
-			const { quantity, page } = req.query;
+			const { quantity, page, sortBy } = req.query;
 			const offset = page * quantity;
 			const totalEvents = await Event.countDocuments();
-			const data = await Event.find().limit(quantity).skip(offset).sort({ date: 1});
+			let data = await Event.find().limit(quantity).skip(offset);
+
+			if (sortBy) data = dataSorter(sortBy, data);
+
 			const availablePages = Math.ceil(totalEvents / quantity);
 			res.status(200).json({ events: data, pages: availablePages });
 		} catch (e) {
@@ -19,22 +23,58 @@ class EventController {
 		try {
 			const { eventId } = req.params;
 			const participant = req.body;
-			const newParticipant = new Participant(participant);
-			await newParticipant.save();
-			const event = await Event.findByIdAndUpdate(eventId, { $push: { participants: newParticipant } }, {
-				new: true
-			});
-			// if (event.restrictions && event.restrictions.dob) {
-			// 	const { dob } = event.get('restrictions');
-			// 	console.log(dob)
-			// 	console.log(participant.dob);
-			// 	const result = compareDates(dob, participant.dob)
-			// 	console.log(result)
-			// }
-			res.status(201).json({ message: 'created'})
+
+			const event = await Event.findById(eventId);
+
+			if (!event) {
+				return res.status(404).json({ message: 'Event not found' });
+			}
+
+			const participantExists = event.participants.some(
+				(p) => p.email === participant.email
+			);
+			if (participantExists) {
+				return res.status(400).json({ message: 'Participant already exists' });
+			}
+
+			if (event.restrictions && event.restrictions.age) {
+				const { age } = event.restrictions;
+				if (compareDates(age, participant.dob)) {
+					return res
+						.status(400)
+						.json({ message: `Minimum age to participate is ${age}` });
+				}
+			}
+
+			event.participants.push(participant);
+			await event.save();
+
+			res.status(201).json({ message: 'Participant added successfully' });
+		} catch (e) {
+			res.status(400).json({ message: e.message });
 		}
-		catch(e) {
-			res.status(400).json({ message: e.message})
+	}
+
+	async findParticipant(req, res) {
+		try {
+			const { eventId } = req.params;
+			console.log(eventId);
+			const { searchParam } = req.body;
+			const event = await Event.findById(eventId);
+
+			if (!event)
+				return res.status(404).json({ message: 'Event was not found' });
+			const participant = event.participants.find(
+				(p) =>
+					p.name.toLowerCase() === searchParam.toLowerCase() ||
+					p.email === searchParam
+			);
+			if (!participant)
+				return res.status(404).json({ message: 'Participant was not found' });
+
+			res.status(200).json(participant);
+		} catch (e) {
+			res.status(404).json({ message: e.message });
 		}
 	}
 }
