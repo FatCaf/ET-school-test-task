@@ -29,6 +29,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'no-plusplus': 'off',
     'no-return-assign': 'off',
+    'no-underscore-dangle': 'off',
     'no-undef': 'off',
     'global-require': 'off',
     'no-param-reassign': 'warn',

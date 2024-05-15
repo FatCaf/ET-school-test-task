@@ -10,3 +10,24 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
+
+.stat-chart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+}
+
+.chart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.chart-bar {
+    height: 4px;
+    background-color: green;
+    border-radius: 4px;
+}

@@ -1,29 +1,56 @@
-/* eslint-disable no-underscore-dangle */
-import { useEffect, useState } from 'react';
+import {
+  useEffect, useRef, useState,
+} from 'react';
 import eventApi from '../../api/request';
+import InfiniteScrollContainer from '../../components/InfiniteScrollContainer';
 import { EventType } from '../../types/EventType';
+import createEventsPreviews from '../../utils/eventPreviewCreator';
 import createPagination from '../../utils/paginator/createPagination';
 import './AllEventsPage.css';
-import EventPreview from './components/EventPreview';
 
 function AllEventsPage(): JSX.Element {
   const [events, setEvents] = useState<EventType[]>();
   const [sortBy, setSortBy] = useState('');
+  const [skipOffset, setSkipOffset] = useState(false);
+  const [preventScroll, setPreventScroll] = useState(false);
   const [availablePages, setAvailablePages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToTop = (): void => {
+    if (containerRef.current) {
+      containerRef.current.scroll({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const getEvents = async (): Promise<void> => {
       const response: { events: EventType[], pages: number } = await eventApi.get(
-        `events?quantity=12&page=${currentPage}&sortBy=${sortBy.length > 0 ? sortBy : ''}`,
+        `events?quantity=12&page=${currentPage}${sortBy.length > 0 ? `&sortBy=${sortBy}` : ''}`,
       );
 
-      setEvents(response.events);
+      if (!skipOffset) scrollToTop();
+
+      setEvents((prevEvents) => (skipOffset
+         && prevEvents ? [...prevEvents, ...response.events] : response.events));
+
       setAvailablePages(response.pages);
     };
 
     getEvents();
-  }, [availablePages, currentPage, sortBy]);
+  }, [availablePages, currentPage, skipOffset, sortBy]);
+
+  const eventsPreviews = createEventsPreviews(events);
+
+  const onScroll = (): void => {
+    if (containerRef.current && !preventScroll) {
+      const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        if (currentPage + 1 <= availablePages) setCurrentPage(currentPage + 1);
+        setSkipOffset(true);
+      }
+    }
+  };
 
   return (
     <section className="all-events-page">
@@ -47,11 +74,18 @@ function AllEventsPage(): JSX.Element {
           <option value="organizer">Sort by organizer (A-Z)</option>
         </select>
       </div>
-      <div className="events-row">
+      <InfiniteScrollContainer
+        onScroll={onScroll}
+        containerRef={containerRef}
+        data={eventsPreviews}
+      />
+      {/* <div className="events-row">
         {events && events.map((event) => <EventPreview key={event._id} {...event} />)}
-      </div>
+      </div> */}
       <div className="pagination">
-        {createPagination({ availablePages, setCurrentPage }).map((item) => item)}
+        {createPagination({
+          availablePages, setCurrentPage, setSkipOffset, setPreventScroll,
+        }).map((item) => item)}
       </div>
     </section>
   );

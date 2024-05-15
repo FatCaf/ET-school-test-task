@@ -2,11 +2,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import { envPath } from './configure-env-path.js';
 import EventRouter from './routers/EventRouter.js';
+import { envPath } from './services/configure-env-path.js';
+import getEventsFromSeparateApi from './services/separateEventsApiService.js';
+
 dotenv.config({ path: envPath });
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
+const INTERVAL = process.env.INTERVAL;
 
 const app = express();
 
@@ -25,3 +28,8 @@ async function startApp() {
 }
 
 startApp();
+
+setInterval(() => {
+	console.log('start insertion');
+	getEventsFromSeparateApi();
+}, INTERVAL);

@@ -1,11 +1,12 @@
 import Event from '../models/Event.js';
-import dataSorter from '../services/dataSorter.js';
-import compareDates from '../services/dateComparator.js';
+import dataSorter from '../services/dataSorterService.js';
+import compareDates from '../services/dateComparatorService.js';
+import getRegStatPerDay from '../services/regStatService.js';
 
 class EventController {
 	async getEvents(req, res) {
 		try {
-			const { quantity, page, sortBy } = req.query;
+			const { quantity, page, sortBy} = req.query;
 			const offset = page * quantity;
 			const totalEvents = await Event.countDocuments();
 			let data = await Event.find().limit(quantity).skip(offset);
@@ -75,6 +76,24 @@ class EventController {
 			res.status(200).json(participant);
 		} catch (e) {
 			res.status(404).json({ message: e.message });
+		}
+	}
+
+	async getRegStat(req, res) {
+		try {
+			const { eventId } = req.params;
+			const event = await Event.findById(eventId);
+			const { participants } = event;
+
+			if (!event)
+				return res.status(404).json({ message: 'Event was not found' });
+			
+			const statArray = getRegStatPerDay(participants);
+			
+			res.status(200).json(statArray);
+		}
+		catch (e) {
+			res.status(404).json({ message: e.message })
 		}
 	}
 }
