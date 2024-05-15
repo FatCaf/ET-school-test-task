@@ -2,7 +2,7 @@ import {
   useEffect, useRef, useState,
 } from 'react';
 import eventApi from '../../api/request';
-import InfiniteScrollContainer from '../../components/InfiniteScrollContainer';
+import InfiniteScrollContainer from '../../components/InfiniteScrollContainer/InfiniteScrollContainer';
 import { EventType } from '../../types/EventType';
 import createEventsPreviews from '../../utils/eventPreviewCreator';
 import createPagination from '../../utils/paginator/createPagination';
@@ -79,9 +79,6 @@ function AllEventsPage(): JSX.Element {
         containerRef={containerRef}
         data={eventsPreviews}
       />
-      {/* <div className="events-row">
-        {events && events.map((event) => <EventPreview key={event._id} {...event} />)}
-      </div> */}
       <div className="pagination">
         {createPagination({
           availablePages, setCurrentPage, setSkipOffset, setPreventScroll,

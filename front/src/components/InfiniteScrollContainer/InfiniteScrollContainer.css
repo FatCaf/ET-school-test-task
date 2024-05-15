@@ -1,0 +1,9 @@
+.container-inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    height: 100dvh;
+    overflow-y: scroll;
+    scrollbar-color: rgb(166 144 212) rgb(36 3 46);
+    scroll-margin: 5px;
+}

@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.ts",
+  "main": "server.js",
   "scripts": {
-    "dev": "cd src && nodemon index.js"
+    "dev": "cd src && nodemon server.js",
+    "start": "cd src && node server.js"
   },
   "keywords": [],
   "author": "",

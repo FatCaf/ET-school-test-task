@@ -1,17 +1,12 @@
-import { MutableRefObject, ReactNode } from 'react';
-
-type InfiniteScrollContainerProps = {
-    onScroll: () => void,
-    containerRef: MutableRefObject<HTMLDivElement | null>,
-    data: ReactNode[]
-}
+import { InfiniteScrollContainerProps } from '../../types/InfiniteScrollProps';
+import './InfiniteScrollContainer.css';
 
 function InfiniteScrollContainer({ onScroll, containerRef, data }:
     InfiniteScrollContainerProps): JSX.Element {
   return (
     <div>
       <div
-        className="containerInner"
+        className="container-inner"
         onScroll={onScroll}
         ref={containerRef}
         style={{ height: '100dvh', overflowY: 'scroll' }}
