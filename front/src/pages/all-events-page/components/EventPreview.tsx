@@ -7,18 +7,19 @@ function EventPreview({
 }: EventType): JSX.Element {
   return (
     <div className="event-preview">
-      <div className="title">
+      <div className="preview-title">
         <h4>{title}</h4>
-        <p>{description}</p>
+      </div>
+      <div className="event-info">
+        <p className="description">{description}</p>
         <p>
-          Organized by:
-          {organizer}
+          {`Organized by: ${organizer}`}
         </p>
-        <p>{date}</p>
+        <p>{`Start at: ${new Date(date).toDateString()}`}</p>
       </div>
       <div className="controls">
-        <Link to={`/event-reg-form/${_id}`}>Register</Link>
-        <Link to={`/participants/${_id}`} state={participants}>View</Link>
+        <Link to={`/event-reg-form/${_id}`} className="register">Register</Link>
+        <Link to={`/participants/${_id}`} state={participants} className="view">View</Link>
       </div>
     </div>
   );

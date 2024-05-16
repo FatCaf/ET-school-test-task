@@ -1,8 +1,80 @@
 .event-preview {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 250px;
+    max-width: 300px;
+    min-height: 300px;
+    max-height: 350px;
+    padding: 5px;
+    border: 2px solid blueviolet;
+    border-radius: 8px;  
+}
+
+.event-preview::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 75px;
+    background-color: blueviolet;
+    content: "";
+}
+
+.preview-title {
+    z-index: 999;
+    padding: 15px 0;
+    color: whitesmoke;
+}
+
+.description {
+    text-align: start;
+}
+
+.event-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    border: 2px solid blueviolet;
+    gap: 15px;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.controls a {
+    display: block;
+    color: black;
+}
+
+.register, .view {
+    width: 80px;
+    padding: 8px;
     border-radius: 8px;
+}
+
+.register {
+    background-color: #90EE90;
+}
+
+.view {
+    background-color: cornflowerblue;
+}
+
+.register:hover,
+.view:hover {
+   color: blue;
+   box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
+}
+
+@media screen and (width <= 640px) {
+	.event-preview {
+		width: 100%;
+        max-width: 100%;
+	}
 }

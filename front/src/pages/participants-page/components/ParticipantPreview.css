@@ -1,7 +1,43 @@
 .participant-preview {
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: start;
     align-items: center;
-    border: 2px solid salmon;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 150px;
+    max-height: 150px;
+    border: 2px solid sandybrown;
     border-radius: 8px;
+}
+
+.participant-preview::before {
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    content: "";
+    background-color: sandybrown;
+}
+
+.participant-info h4 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+}
+
+.participant-info p{
+    margin-top: 20px;
+    padding: 15px;
+}
+
+@media screen and (width <= 640px) {
+	.participant-preview {
+		width: 100%;
+        max-width: 100%;
+	}
 }

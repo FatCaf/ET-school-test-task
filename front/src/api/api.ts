@@ -1,3 +1,3 @@
 export default {
-  baseURL: import.meta.env.VITE_EVENT_API || 'Api url is not defined',
+  baseURL: import.meta.env.VITE_EVENT_API || 'http://localhost:5000/api/v1',
 };
