@@ -10,6 +10,7 @@ Create web-based application for events registration.
 - 
 ### Link to app: 
 https://master--et-test-task.netlify.app/
+(app hosted on free instance and requsts can be delayed)
 
 ### Tech stack:
 - Back-end:
