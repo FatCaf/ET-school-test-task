@@ -27,7 +27,9 @@ function EventRegPage(): JSX.Element {
       return;
     }
 
-    await eventApi.post(`/event-reg-form/${eventId}`, formData);
+    await eventApi.post(`/event-reg-form/${eventId}`, formData).then((res) => {
+      if (res) toast.success('You\'ve registered successfully');
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

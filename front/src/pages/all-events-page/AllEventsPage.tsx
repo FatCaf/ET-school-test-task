@@ -31,8 +31,12 @@ function AllEventsPage(): JSX.Element {
 
       if (!skipOffset) scrollToTop();
 
-      setEvents((prevEvents) => (skipOffset
-         && prevEvents ? [...prevEvents, ...response.events] : response.events));
+      if (sortBy.length > 0) {
+        setEvents(response.events);
+      } else {
+        setEvents((prevEvents) => (skipOffset
+          && prevEvents ? [...prevEvents, ...response.events] : response.events));
+      }
 
       setAvailablePages(response.pages);
     };
