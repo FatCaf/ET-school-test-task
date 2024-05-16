@@ -59,9 +59,22 @@
 }
 
 .register {
-    background-color: aquamarine;
+    background-color: #90EE90;
 }
 
 .view {
     background-color: cornflowerblue;
+}
+
+.register:hover,
+.view:hover {
+   color: blue;
+   box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
+}
+
+@media screen and (width <= 640px) {
+	.event-preview {
+		width: 100%;
+        max-width: 100%;
+	}
 }

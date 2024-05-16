@@ -6,8 +6,8 @@
     gap: 30px;
 }
 
-.events-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }

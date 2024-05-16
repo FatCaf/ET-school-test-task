@@ -9,7 +9,7 @@ function InfiniteScrollContainer({ onScroll, containerRef, data }:
         className="container-inner"
         onScroll={onScroll}
         ref={containerRef}
-        style={{ height: '100dvh', overflowY: 'scroll' }}
+        id="scroll-bar"
       >
         {data && data.map((node) => node)}
       </div>

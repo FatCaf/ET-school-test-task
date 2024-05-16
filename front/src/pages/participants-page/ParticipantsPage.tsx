@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import eventApi from '../../api/request';
@@ -15,6 +15,8 @@ function ParticipantsPage(): JSX.Element {
   const [chartData, setChartData] = useState<ChartData[]>();
   const { eventId } = useParams();
   const [formData, setFormData] = useState<{ searchParam: string }>();
+  const [showStats, setShowStats] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     const getChartData = async (): Promise<void> => {
@@ -44,8 +46,12 @@ function ParticipantsPage(): JSX.Element {
         <h1>They will go to the event</h1>
       </div>
       <form onSubmit={handleSubmit} className="find-participant">
-        <label id="searchParam">
-          Participant search
+        <label htmlFor="searchParam" />
+        <h4>Participant search</h4>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px',
+        }}
+        >
           <input
             type="text"
             name="searchParam"
@@ -59,16 +65,37 @@ function ParticipantsPage(): JSX.Element {
               )
             }
           />
-        </label>
-        <button type="submit">Find</button>
+          <button type="submit">Find</button>
+        </div>
       </form>
-      <div className="stat-chart">
-        {chartData && chartData.map((item) => (
-          <div className="chart-item">
-            <p>{item.createdAt}</p>
-            <div className="chart-bar" style={{ width: item.regCount * 10 }} />
+      <div className="show-stats">
+        <button
+          type="button"
+          onClick={(): void => setShowStats(!showStats)}
+        >
+          {showStats ? 'Hide' : 'Show stats'}
+        </button>
+        <div className={`${showStats ? 'stat-wrapper active' : 'stat-wrapper'}`}>
+          <div className="stat-chart">
+            <div>
+              <h4>Registrations per day</h4>
+            </div>
+            <div>
+              {chartData && chartData.map((item) => (
+                <div className="chart-item" key={item.regCount}>
+                  <p>{item.createdAt}</p>
+                  <div
+                    className="chart-bar"
+                    style={{ width: item.regCount * 10 }}
+                    onMouseOver={(): void => setShowTooltip(true)}
+                    onMouseLeave={(): void => setShowTooltip(false)}
+                  />
+                  {showTooltip && <div className="tooltip">{item.regCount}</div>}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        </div>
       </div>
       <div className="participants-row">
         {participants && participants.map((participant) => (

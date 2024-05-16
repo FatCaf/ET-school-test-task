@@ -40,33 +40,35 @@ function EventRegPage(): JSX.Element {
     <section className="event-reg-page">
       <form onSubmit={handleSubmit} className="reg-form">
         <h4>Event registration form</h4>
-        <label id="name">
-          Full name
-          <input type="text" name="name" id="name" maxLength={24} required onChange={handleChange} />
-        </label>
-        <label id="email">
-          Email
-          <input type="email" name="email" id="email" required onChange={handleChange} />
-        </label>
-        <label id="dob">
-          Date of birth
-          <input type="date" name="dob" id="dob" max={currentDate} required onChange={handleChange} />
-        </label>
-        <fieldset>
-          <legend>Where did you hear about this event?</legend>
-          <div>
-            <input type="radio" name="where_heard" id="social" value="social media" required onChange={handleChange} />
-            <label htmlFor="social">Social media</label>
-          </div>
-          <div>
-            <input type="radio" name="where_heard" id="friends" value="friends" required onChange={handleChange} />
-            <label htmlFor="friends">Friends</label>
-          </div>
-          <div>
-            <input type="radio" name="where_heard" id="myself" value="myself" required onChange={handleChange} />
-            <label htmlFor="myself">Myself</label>
-          </div>
-        </fieldset>
+        <div className="form-fields">
+          <label id="name">
+            Full name
+            <input type="text" name="name" id="name" maxLength={24} required onChange={handleChange} />
+          </label>
+          <label id="email">
+            Email
+            <input type="email" name="email" id="email" required onChange={handleChange} />
+          </label>
+          <label id="dob">
+            Date of birth
+            <input type="date" name="dob" id="dob" max={currentDate} required onChange={handleChange} />
+          </label>
+          <fieldset>
+            <legend>Where did you hear about this event?</legend>
+            <div className="fieldset-item">
+              <input type="radio" name="where_heard" id="social" value="social media" required onChange={handleChange} />
+              <label htmlFor="social">Social media</label>
+            </div>
+            <div className="fieldset-item">
+              <input type="radio" name="where_heard" id="friends" value="friends" required onChange={handleChange} />
+              <label htmlFor="friends">Friends</label>
+            </div>
+            <div className="fieldset-item">
+              <input type="radio" name="where_heard" id="myself" value="myself" required onChange={handleChange} />
+              <label htmlFor="myself">Myself</label>
+            </div>
+          </fieldset>
+        </div>
         <button type="submit">Submit</button>
       </form>
     </section>

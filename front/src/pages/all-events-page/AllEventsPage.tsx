@@ -46,7 +46,7 @@ function AllEventsPage(): JSX.Element {
     if (containerRef.current && !preventScroll) {
       const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
       if (scrollTop + clientHeight === scrollHeight) {
-        if (currentPage + 1 <= availablePages) setCurrentPage(currentPage + 1);
+        if (currentPage + 1 < availablePages) setCurrentPage(currentPage + 1);
         setSkipOffset(true);
       }
     }
@@ -81,7 +81,7 @@ function AllEventsPage(): JSX.Element {
       />
       <div className="pagination">
         {createPagination({
-          availablePages, setCurrentPage, setSkipOffset, setPreventScroll,
+          availablePages, setCurrentPage, setSkipOffset, setPreventScroll, currentPage,
         }).map((item) => item)}
       </div>
     </section>
